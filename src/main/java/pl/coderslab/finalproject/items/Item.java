@@ -13,9 +13,9 @@ import lombok.*;
 public class Item {
 
     @Id
-    private Long itemNumber;
+    private Integer itemNumber;
 
     private String itemFamily;
-    private Long itemClass;
+    private Integer itemClass;
     private boolean perishable;
 }

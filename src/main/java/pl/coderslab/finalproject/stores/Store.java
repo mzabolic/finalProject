@@ -12,7 +12,7 @@ import lombok.*;
 @ToString
 public class Store {
     @Id
-    private Long storeNbr;
+    private Integer storeNumber;
     private String city;
     private String state;
     private char type;
