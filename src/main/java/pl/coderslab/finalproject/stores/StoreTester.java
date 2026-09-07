@@ -12,8 +12,8 @@ public class StoreTester implements CommandLineRunner {
     private final StoreRepository storeRepository;
     @Override
     public void run(String... args) throws Exception {
-        Long test = storeRepository.count();
-        log.info("There are :{} stores", test);
-        log.info("Znaleziono sklep: {}", storeRepository.findFirstByCity("Quito").toString());
+//        Long test = storeRepository.count();
+//        log.info("There are :{} stores", test);
+//        log.info("Znaleziono sklep: {}", storeRepository.findFirstByCity("Quito").toString());
     }
 }

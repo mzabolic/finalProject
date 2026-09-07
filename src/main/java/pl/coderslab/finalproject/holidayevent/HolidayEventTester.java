@@ -14,8 +14,8 @@ public class HolidayEventTester implements CommandLineRunner {
     private final HolidayEventRepository holidayEventRepository;
     @Override
     public void run(String... args) throws Exception {
-        Long test = holidayEventRepository.count();
-        log.info("Liczba rekordow: {}" , test);
+//        Long test = holidayEventRepository.count();
+//        log.info("Liczba rekordow: {}" , test);
     }
 
 }
