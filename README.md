@@ -1,9 +1,9 @@
-# Favorita – Analiza Sprzedaży z Zapytaniami w Języku Naturalnym
+# Analiza Bazy Danych z Zapytaniami w Języku Naturalnym
 
 Aplikacja webowa (Spring Boot) do analizy danych sprzedażowych sieci sklepów spożywczych (na bazie zbioru danych **Corporación Favorita** z Kaggle). Użytkownik może zadawać pytania w języku naturalnym (np. *"Które sklepy miały najwyższą sprzedaż w grudniu 2016?"*), a system za pomocą modelu AI generuje odpowiednie zapytanie SQL, wykonuje je na bazie danych i prezentuje wynik w formie tabeli oraz automatycznie dopasowanego wykresu.
 
-> **[MIEJSCE NA ZDJĘCIE]**
-> Zrzut ekranu głównego dashboardu / panelu nawigacyjnego aplikacji (`/dashboard`).
+
+![img.png](img.png)
 
 ---
 
@@ -33,11 +33,13 @@ Aplikacja webowa (Spring Boot) do analizy danych sprzedażowych sieci sklepów s
 - **Zarządzanie danymi referencyjnymi** – panele CRUD z paginacją dla sklepów (`Store`) i świąt/wydarzeń specjalnych (`HolidayEvent`).
 - **Walidacja i sanityzacja SQL** wygenerowanego przez model AI przed wykonaniem na bazie.
 
-> **[MIEJSCE NA ZDJĘCIE]**
-> Zrzut ekranu formularza zapytania w języku naturalnym (`/nlp/query`) wraz z pytaniami doprecyzowującymi.
 
-> **[MIEJSCE NA ZDJĘCIE]**
-> Zrzut ekranu wyniku zapytania – tabela danych + wygenerowany wykres (`/nlp/query/sql`).
+>Zapytanie w języku naturalnym![img_1.png](img_1.png)
+
+>Doprecyzowanie zapytania dla modelu NLP![img_2.png](img_2.png)
+> 
+>![img_4.png](img_4.png)
+> ![img_5.png](img_5.png)
 
 ---
 
@@ -51,7 +53,7 @@ Aplikacja webowa (Spring Boot) do analizy danych sprzedażowych sieci sklepów s
 | Baza danych | MySQL |
 | Widoki | Thymeleaf + Thymeleaf Extras Spring Security 6 |
 | Bezpieczeństwo | Spring Security (BCrypt) |
-| AI / LLM | Spring AI (BOM 2.0.1), Groq API (model Qwen) |
+| Groq API (model Qwen) |
 | Wykonywanie SQL | Spring `JdbcTemplate` |
 | Build | Maven (Maven Wrapper `mvnw`) |
 | Inne | Lombok, Spring Boot DevTools |
@@ -118,8 +120,6 @@ src/main/resources/
 
 **Relacje:** `User` 1—N `UserHistory`, `Store` 1—N `Sale`, `Store` 1—N `StoreTransaction`, `Item` 1—N `Sale`.
 
-> **[MIEJSCE NA ZDJĘCIE]**
-> Diagram ERD modelu danych (schemat relacji między tabelami).
 
 ---
 
@@ -166,7 +166,6 @@ src/main/resources/
 | POST | `/nlp/query/exec` | Wykonanie własnego zapytania SQL |
 | GET | `/historySql/list?page=0` | Historia zapytań zalogowanego użytkownika |
 
-> **Uwaga:** kontroler `charts/ChartsControler` jest obecnie niekompletny (brak zaimplementowanych metod) – patrz [Znane ograniczenia](#znane-ograniczenia--todo).
 
 ---
 
@@ -209,7 +208,6 @@ src/main/resources/
    spring.mvc.async.request-timeout=300000
    ```
 
-   > ⚠️ **Bezpieczeństwo:** w lokalnym pliku `application.properties` znajduje się aktywny klucz API do Groq w postaci zwykłego tekstu. Plik jest na szczęście objęty `.gitignore`, więc nie trafił do repozytorium – **należy jednak jak najszybciej wyrotować (zregenerować) ten klucz** w panelu Groq, ponieważ mógł zostać ujawniony poza kontrolą wersji (np. w backupach, historii terminala czy udostępnionych plikach).
 
 4. Baza tabel zostanie utworzona automatycznie przy starcie aplikacji (`spring.jpa.hibernate.ddl-auto=update`).
 
@@ -249,12 +247,6 @@ Dane te należy zaimportować do tabel MySQL odpowiadających encjom (`store`, `
 
 ---
 
-## Znane ograniczenia / TODO
-
-- `charts/ChartsControler` – kontroler bez zaimplementowanej logiki, do dokończenia.
-- `SecurityConfig` – wszystkie żądania są obecnie dopuszczone (`permitAll`), a CSRF jest wyłączone; przed wdrożeniem produkcyjnym wymaga przeglądu i zawężenia uprawnień.
-- Literówki w nazwach pakietów/klas do rozważenia w ramach refaktoryzacji: `hisotry` (→ `history`), `OilReposiotry` (→ `OilRepository`), `DashboeardControler`/`ChartsControler` (→ `...Controller`).
-- Brak zestawu testów automatycznych pokrywających pipeline NLP → SQL.
 
 ---
 
@@ -262,4 +254,3 @@ Dane te należy zaimportować do tabel MySQL odpowiadających encjom (`store`, `
 
 - Hasła użytkowników są haszowane (BCrypt) przed zapisem do bazy.
 - Wygenerowane przez AI zapytania SQL przechodzą walidację (`SQLvalidator`) przed wykonaniem – zalecany dalszy przegląd pod kątem ochrony przed SQL injection / niebezpiecznymi operacjami (np. `DROP`, `DELETE` bez `WHERE`).
-- Plik `application.properties` z danymi dostępowymi do bazy i kluczem API **nie powinien** być commitowany do repozytorium (obecnie poprawnie ujęty w `.gitignore`).
