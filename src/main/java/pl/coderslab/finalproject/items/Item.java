@@ -1,0 +1,21 @@
+package pl.coderslab.finalproject.items;
+
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import lombok.*;
+
+@Entity
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+public class Item {
+
+    @Id
+    private Integer itemNumber;
+
+    private String itemFamily;
+    private Integer itemClass;
+    private boolean perishable;
+}
