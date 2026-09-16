@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+</head>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
+    <div class="container">
+
+        <a class="navbar-brand" th:href="@{/dashboard}">
+            Menu
+        </a>
+
+        <div class="ms-auto d-flex align-items-center gap-2">
+
+            <span class="text-white"
+                  th:if="${session.loggedUser != null}">
+                Zalogowany:
+                <strong th:text="${session.loggedUser.userName}"></strong>
+            </span>
+
+            <a th:if="${session.loggedUser == null}"
+               th:href="@{/user/login}"
+               class="btn btn-light btn-sm">
+                Logowanie
+            </a>
+
+            <a th:if="${session.loggedUser == null}"
+               th:href="@{/user/save}"
+               class="btn btn-outline-light btn-sm">
+                Rejestracja
+            </a>
+
+            <a th:if="${session.loggedUser != null}"
+               th:href="@{/user/logout}"
+               class="btn btn-danger btn-sm">
+                Wyloguj
+            </a>
+
+        </div>
+
+    </div>
+</nav>
+<div class="container">
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <form th:action="@{/holiday/new}" th:object="${holiday}" method="post">
+
+                <input type="hidden" name="isEdit" th:value="${isEdit}">
+
+                <div class="mb-3" th:if="${isEdit}">
+                    <label class="form-label">Id</label>
+                    <input type="text" class="form-control bg-light" th:field="*{id}" readonly>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Data</label>
+                    <input type="date" class="form-control"
+                           th:classappend="${#fields.hasErrors('date')} ? ' is-invalid'"
+                           th:field="*{date}" required>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('date')}" th:errors="*{date}">Błąd</div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Typ święta</label>
+                    <input type="text" class="form-control"
+                           th:classappend="${#fields.hasErrors('holidayType')} ? ' is-invalid'"
+                           th:field="*{holidayType}" required>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('holidayType')}" th:errors="*{holidayType}">Błąd</div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Locale</label>
+                    <input type="text" class="form-control"
+                           th:classappend="${#fields.hasErrors('locale')} ? ' is-invalid'"
+                           th:field="*{locale}" required>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('locale')}" th:errors="*{locale}">Błąd</div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Nazwa lokalizacji</label>
+                    <input type="text" class="form-control"
+                           th:classappend="${#fields.hasErrors('localeName')} ? ' is-invalid'"
+                           th:field="*{localeName}">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('localeName')}" th:errors="*{localeName}">Błąd</div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Opis</label>
+                    <textarea class="form-control"
+                              th:classappend="${#fields.hasErrors('description')} ? ' is-invalid'"
+                              th:field="*{description}"></textarea>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Błąd</div>
+                </div>
+
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" th:field="*{transferred}">
+                    <label class="form-check-label">Przeniesione</label>
+                </div>
+
+                <div class="mt-4 d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">Zapisz</button>
+                    <a th:href="@{/holiday/list}" class="btn btn-outline-secondary">Anuluj</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

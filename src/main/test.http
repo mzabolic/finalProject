@@ -10,3 +10,9 @@ Pokaż top 10 sklepów
 
 ###
 POST http://localhost:8080/nlp/
+
+###
+POST http://localhost:8080/nlp/query
+Content-Type: text/plain
+
+pokaz najlepsze 10 sklepow pod wzgledem sprzedazy w dni siwateczne

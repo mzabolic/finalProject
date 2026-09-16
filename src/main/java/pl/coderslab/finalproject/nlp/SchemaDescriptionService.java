@@ -37,6 +37,11 @@ public class SchemaDescriptionService {
             while (tables.next()) {
                 String tableName = tables.getString("TABLE_NAME");
 
+                if ("user".equalsIgnoreCase(tableName)
+                        || "user_history".equalsIgnoreCase(tableName)) {
+                    continue;
+                }
+
                Set<String> primaryKeys = new HashSet<>();
                 ResultSet pk = metaData.getPrimaryKeys(
                         schemaName,

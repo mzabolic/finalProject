@@ -11,7 +11,15 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class QueryResoult {
+public class QueryResult {
     private List<String> columns;
-    private List<List<String>> rows;
+    private List<List<Object>> rows;
+
+    @Override
+    public String toString() {
+        return "QueryResoult{" +
+                "columns=" + columns +
+                ", rows=" + rows +
+                '}';
+    }
 }

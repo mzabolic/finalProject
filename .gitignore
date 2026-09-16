@@ -33,3 +33,6 @@ build/
 ### VS Code ###
 .vscode/
 /data/
+
+src/main/resources/application.properties
+/Users/mzabolic/CodersLabBC/finalProject/Test.sql
